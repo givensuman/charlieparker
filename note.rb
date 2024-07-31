@@ -1,3 +1,13 @@
+##
+# Note
+#
+# A note is a pitch with a sharp or flat modifier.
+#
+# +name+:: The name of the note.
+# +opts+:: Options for the note.
+#   +is_sharp+:: Is the note a sharp note?
+#   +is_flat+:: Is the note a flat note?
+#
 class Note
   attr_accessor :name, :opts
 
