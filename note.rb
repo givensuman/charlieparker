@@ -31,8 +31,9 @@ class Note
     index_of_note = notes.index { |note| note.name == name }
 
     interval %= 12
+    index_of_new_note = (index_of_note + interval) % 12
 
-    puts notes[index_of_note + interval + 1]
+    notes[index_of_new_note]
   end
 
   def to_s
@@ -47,7 +48,7 @@ end
 # Use `get_notes` to get those tones as an array of notes.
 #
 module TwelveTone
-  @notes_w_flats = [
+  @@notes_w_flats = [
     Note.new('A'),
     Note.new('B', { is_flat: true }),
     Note.new('B'),
@@ -62,7 +63,7 @@ module TwelveTone
     Note.new('A', { is_flat: true })
   ].freeze
 
-  @notes_w_sharps = [
+  @@notes_w_sharps = [
     Note.new('A'),
     Note.new('A', { is_sharp: true }),
     Note.new('B'),
@@ -87,7 +88,7 @@ module TwelveTone
   # Returns an array of notes.
   #
   def self.get_notes(opts = { is_sharp: false, is_flat: false })
-    opts[:is_sharp] ? @notes_w_sharps : @notes_w_flats # Prefers flats
+    opts[:is_flat] ? @@notes_w_flats : @@notes_w_sharps # Prefers sharps
   end
 end
 
