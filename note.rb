@@ -24,6 +24,14 @@ class Note
     @opts[:is_flat]
   end
 
+  def set_sharp(is_sharp)
+    @opts[:is_sharp] = is_sharp
+  end
+
+  def set_flat(is_flat)
+    @opts[:is_flat] = is_flat
+  end
+
   def increase_interval(interval)
     return self if interval.zero?
 
@@ -34,6 +42,24 @@ class Note
     index_of_new_note = (index_of_note + interval) % 12
 
     notes[index_of_new_note]
+  end
+
+  def switch_accidental
+    return self if !sharp? && !flat?
+
+    note = Note.new(@name, @opts)
+
+    if sharp?
+      note = increase_interval(2)
+      note.set_sharp(false)
+      note.set_flat(true)
+    else
+      note = increase_interval(-2)
+      note.set_sharp(true)
+      note.set_flat(false)
+    end
+
+    note
   end
 
   def to_s

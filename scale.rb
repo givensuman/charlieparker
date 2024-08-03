@@ -9,24 +9,31 @@ require_relative 'note'
 # +intervals+:: The intervals of the scale, in half steps from the root.
 #
 class Scale
-  attr_accessor :root, :intervals
+  attr_accessor :root, :intervals, :opts
 
-  def initialize(root = Note.new('C'), intervals = ScaleIntervals.get_intervals(:major))
+  def initialize(root = Note.new('C'), intervals = ScaleIntervals.get_intervals(:major), opts = {
+    prefer_sharps: false,
+    prefer_flats: false
+  })
     @root = root
     @intervals = intervals
+    @opts = opts
   end
 
   def to_s
-    # intervals.each do |interval|
-    #   note = root.increase_interval(interval)
-    #   print "#{note} "
-    # end
-    #
-    # puts ''
-
     intervals.each do |interval|
-      print "root: #{root}, interval: #{interval}, note: #{root.increase_interval(interval)}\n"
+      note = root.increase_interval(interval)
+
+      if @opts[:prefer_sharps] && note.flat?
+        note = note.switch_accidental
+      elsif @opts[:prefer_flats] && note.sharp?
+        note = note.switch_accidental
+      end
+
+      print "#{note} "
     end
+
+    puts ''
   end
 end
 
@@ -58,5 +65,5 @@ module ScaleIntervals
   end
 end
 
-scale = Scale.new
+scale = Scale.new(Note.new('C'), ScaleIntervals.get_intervals(:minor), { prefer_flats: true })
 print scale
