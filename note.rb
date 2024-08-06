@@ -9,19 +9,19 @@
 #   +is_flat+:: Is the note a flat note?
 #
 class Note
-  attr_accessor :name, :opts
+  attr_accessor :name, :accidental
 
-  def initialize(name, opts = { is_sharp: false, is_flat: false })
+  def initialize(name, accidental = 0)
     @name = name.upcase
-    @opts = opts
+    @accidental = accidental
   end
 
   def sharp?
-    @opts[:is_sharp]
+    accidental > 0
   end
 
   def flat?
-    @opts[:is_flat]
+    
   end
 
   def set_sharp(is_sharp)
